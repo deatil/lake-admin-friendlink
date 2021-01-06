@@ -41,7 +41,7 @@ class Lfriendlink extends LfriendlinkBase
             $order = "fl.sort ASC, fl.id ASC";
             $friendlink = Db::name('lfriendlink')
                 ->alias('fl')
-                ->join('__LFRIENDLINK_CATE__ flc', 'fl.cate_id = flc.id', 'left')
+                ->join('lfriendlink_cate flc', 'fl.cate_id = flc.id', 'left')
                 ->field('
                     fl.*,
                     flc.name as cate_name,
