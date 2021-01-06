@@ -1,0 +1,71 @@
+{extend name="$lake_admin_layout"/}
+
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header layui-bg-cyan">链接列表</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm" href="{:url('add')}">添加链接</a>
+    </div>
+</script>
+<script type="text/html" id="targetTpl">
+    {{# if (d.target == '_self') { }}
+		<span class="layui-badge layui-bg-cyan">本页面</span>
+	{{# } }}
+		
+	{{# if (d.target == '_blank') { }}
+		<span class="layui-badge layui-bg-blue">新页面</span>
+	{{# } }}
+		
+	{{# if (d.target == '_parent') { }}
+		<span class="layui-badge layui-bg-green">父窗口</span>
+	{{# } }}
+		
+	{{# if (d.target == '_top') { }}
+		<span class="layui-badge layui-bg-orange">顶层窗口</span>
+	{{# } }}
+</script>
+<script type="text/html" id="addTimeTpl">
+    {{ layui.util.toDateString(d.add_time * 1000) }}
+</script>
+<script type="text/html" id="statusTpl">
+    <input type="checkbox" name="status" data-href="{:url('setstate')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="开启|关闭" lay-filter="switchStatus" {{ d.status==1 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="actionTpl">
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+{/block}
+
+{block name="script"}
+<script>
+layui.use(['table', 'msg'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+	
+    table.render({
+        elem: '#table',
+        toolbar: '#toolbar',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { field: 'id', width: 80, title: 'ID', align:"center" },
+                { field: 'name', width: 150, title: '链接名称' },
+                { field: 'url', title: '链接地址' },
+                { field: 'target', width: 90, title: '跳转方式', templet: '#targetTpl' },
+                { field: 'cate_title', width: 120, title: '链接分类' },
+                { field: 'sort', width: 70, title: '排序', align:"center" },
+                { field: 'add_time',width: 180, title: '创建时间', templet: '#addTimeTpl' },
+                { field: 'status', width: 100, title: '状态', align:"center", templet: '#statusTpl', unresize: true },
+                { fixed: 'right', title: '操作', width: 120, templet: '#actionTpl' }
+            ]
+        ]
+    });
+});
+</script>
+{/block}
