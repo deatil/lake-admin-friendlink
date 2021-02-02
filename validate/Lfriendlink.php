@@ -23,7 +23,13 @@ class Lfriendlink extends Validate
     ];
     
     protected $scene = [
-        'add' => 'name, type',
-        'edit' => 'name, type'
+        'add' => [
+            'name',
+            'type',
+        ],
+        'edit' => [
+            'name',
+            'type',
+        ]
     ];
 }
