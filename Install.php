@@ -2,8 +2,6 @@
 
 namespace app\lfriendlink;
 
-use think\facade\Db;
-
 use Lake\Module;
 
 /**
